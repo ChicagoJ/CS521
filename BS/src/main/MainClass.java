@@ -1,11 +1,16 @@
 package main;
 
+import java.awt.event.MouseWheelEvent;
+import java.awt.geom.CubicCurve2D;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.SpringLayout.Constraints;
+import javax.swing.text.DefaultEditorKit.InsertBreakAction;
 
 import dbconnection.MakeConnection;
 import model.*;
@@ -109,16 +114,12 @@ public class MainClass {
 					+ "CHECK (type IN ('Mobile' , 'Home', 'Work', 'Other')));";
 
 			statement.executeUpdate(createTablePhoneNumberQuery);
-
-			String createCustomerOrderTableQuery = "CREATE TABLE customerOrder (customerNo INT(12) NOT NULL,"
-					+ "orderNo INT(12) NOT NULL, "
-					+ "CONSTRAINT customerResPK PRIMARY KEY (customerNo , orderNo), "
-					+ "CONSTRAINT customerFK FOREIGN KEY (customerNo) REFERENCES customer (customerNo),"
-					+ "CONSTRAINT orderFK FOREIGN KEY (orderNo) REFERENCES productOrder (orderNo));";
-
-			statement.executeUpdate(createCustomerOrderTableQuery);
-
 			
+			String createTableMemberShipQuery = "CREATE table memberShip (memberId INT(12) NOT NULL, customerNo INT(12) NOT NULL, constraint membershipPK primary key (memberId), constraint memberFK foreign key(customerNo) references customer (customerNo)); ";
+			statement.executeUpdate(createTableMemberShipQuery);
+			
+			String createTableCustomerOrderQuery = "CREATE table customerOrder (orderNo INT(12) NOT NULL, customerNo INT (12) NOT NULL, constraint customerOrderPK primary key(orderNo), constraint orderFK foreign key(orderNo) references productOrder(orderNo), constraint customerFK foreign key(customerNo)references customer(customerNo) );";
+			statement.executeUpdate(createTableCustomerOrderQuery);
 
 		
 		} catch (Exception e){
@@ -329,37 +330,97 @@ public class MainClass {
 		return bookOjectList;
 	}
 	
+	private List<Order> getProductOrderObjects() {
+		List<Order> productOrders = new ArrayList<Order>();
+		
+		Order order1 = new Order();
+		order1.setOrderNo(1111);
+		order1.setBookNo(001);
+		order1.setDateOrderMade("06/23/2017");
+		order1.setDatePaid("06/23/2017");
+		
+		Order order2 = new Order();
+		order2.setOrderNo(1112);
+		order2.setBookNo(002);
+		order2.setDateOrderMade("06/25/2017");
+		order2.setDatePaid(null);
+		
+		
+		Order order3 = new Order();
+		order3.setOrderNo(1113);
+		order3.setBookNo(001);
+		order3.setDateOrderMade("05/30/2017");
+		order3.setDatePaid("06/01/2017");
+		
+		productOrders.add(order1);
+		productOrders.add(order2);
+		productOrders.add(order3);
+		
+		return productOrders;
+		
+	}
+	
+	private List<CustomerOrder> getCustomerOrderObjects() {
+		
+		List<CustomerOrder> customerOrders = new ArrayList<CustomerOrder>();
+		
+		CustomerOrder customerOrder1 = new CustomerOrder();
+		customerOrder1.setCustomerNo(10000081L);
+		customerOrder1.setorderNo(1111);
+		
+		CustomerOrder customerOrder2 = new CustomerOrder();
+		customerOrder2.setCustomerNo(10000082L);
+		customerOrder2.setorderNo(1112);
+		
+		CustomerOrder customerOrder3 = new CustomerOrder();
+		customerOrder3.setCustomerNo(10000083L);
+		customerOrder3.setorderNo(1113);
+		
+		customerOrders.add(customerOrder1);
+		customerOrders.add(customerOrder2);
+		customerOrders.add(customerOrder2);
+		
+		
+		
+		return customerOrders;
+		
+	}
+	
+	private List<MemberShip> getMemberShipObjects() {
+		List<MemberShip> memberShipsList = new ArrayList<MemberShip>();
+		MemberShip memberShip1 = new MemberShip();
+		memberShip1.setmemberId(00001);
+		memberShip1.setcustomerNo(10000081L);
+		memberShip1.setStartDate("06/24/2017");
+		memberShip1.setEndDate("06/23/2017");
+		
+		memberShipsList.add(memberShip1);
+		
+		return memberShipsList;
+	}
+	
 	
 	public void insertValuesToTables(Connection conn) {
 		// insert queries
 
-		// insert into SHIP
-		// create ship objects
+
 		this.insertIntoBookTable(conn);
 
-		// create a method to insert to customer table ( // create a method to
-		// insert into phonenumber)
-		this.insertIntoCustomerTable(conn);
-//
-//		this.insertIntoCruiseTable(conn);
-//		this.insertIntoReservationTable(conn);
-		// because phonnumebr table contains custoemr id
-		// that means firts insert into customer table table then insert into
-		// phone numberd
 
-//		this.insertIntoCabinTable(conn);
+		this.insertIntoCustomerTable(conn);
+
 
 		this.insertIntoPhoneNumberTable(conn);
+		
+		this.insertIntoOrderTable(conn);
+		
+//		this.insertIntoCustomerOrderTable(conn);
+		
+		this.insertIntoMemberShipTable(conn);
 
-		// create amethod toninsert into cabin
 
-//		this.insertIntoCustomerReservationTable(conn);
 
-//		this.insertIntoCabinReservationTable(conn);
 
-		// create objects
-
-		// statements
 	}
 	
 	private void insertIntoCustomerTable(Connection conn) {
@@ -446,8 +507,59 @@ public class MainClass {
 		}
 	}
 	
+	private void insertIntoOrderTable(Connection conn) {
+		
+		String insertIntoOrderTableQuery = "INSERT INTO productOrder VALUES (?, ?, "
+				+ "STR_TO_DATE(?,'%m/%d/%Y'), STR_TO_DATE(?,'%m/%d/%Y'));";
+		PreparedStatement pst = null;
+		
+		try {
+			
+			for (Order order: this.getProductOrderObjects()){
+				pst = conn.prepareStatement(insertIntoOrderTableQuery);
+				
+				pst.setInt(1, order.getOrderNo());
+				pst.setInt(2, order.getBookNo());
+				pst.setString(3, order.getDateOrderMade());
+				pst.setString(4, order.getDatePaid());
+				
+				pst.executeUpdate();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
+	private void insertIntoCustomerOrderTable(Connection conn) {
+		String insertIntoCustomerOrderQuery = "INSERT INTO customerOrder VALUES(?,?)";
+		
+		PreparedStatement pst = null;
+		
+		try {
+			
+			for (CustomerOrder customerOrder : this.getCustomerOrderObjects()){
+				pst = conn.prepareStatement(insertIntoCustomerOrderQuery);
+				
+				pst.setLong(1, customerOrder.getCustomerNo());
+				pst.setInt(2, customerOrder.getorderNo());
+				
+				pst.executeUpdate();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+	}
 	
+	private void insertIntoMemberShipTable(Connection conn) {
+		String insertIntoMemberShipQuery = "INSERT INTO memberShip VALUES"
+				+ "(?, ?, STR_TO_DATE(?,'%m/%d/%Y'),STR_TO_DATE(?,'%m/%d/%Y'));";
+		
+	}
 	
 	
 	String formGrantPermissionToDbDesigneQuery(String userName) {
