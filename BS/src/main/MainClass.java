@@ -38,6 +38,8 @@ public class MainClass {
 			// grant permissions
 
 			mainClass.grantPermission(conn);
+			mainClass.insertValuesToTables(conn);
+
 
 
 		}else {
@@ -206,6 +208,244 @@ public class MainClass {
 		// satements
 	}
 
+	// Function to create customer objects and return list of those objects
+	private List<Customer> getCustomerObjects() {
+		List<Customer> customerList = new ArrayList<Customer>();
+		Customer customerObject1 = new Customer();
+
+		Address address1 = new Address();
+		address1.setStreet("123 Example St");
+		address1.setCity("Cleveland");
+		address1.setState("OH");
+		address1.setZip("75244");
+
+		CreditCard cc1 = new CreditCard();
+		cc1.setCreditCardNo("1200456898651234");
+
+		customerObject1.setFirstName("Rob");
+		customerObject1.setLastName("McDonald");
+		customerObject1.setCustomerNo(10000082L);
+		customerObject1.setEmail("rob.mcd@gmail.com");
+		customerObject1.setAddress(address1);
+		customerObject1.setCreditCardNo(cc1);
+
+		Customer customerObject2 = new Customer();
+
+		Address address2 = new Address();
+		address2.setStreet("123 Example St");
+		address2.setCity("San diago");
+		address2.setState("CA");
+		address2.setZip("96502");
+
+		CreditCard cc2 = new CreditCard();
+		cc1.setCreditCardNo("1200456898654321");
+
+		customerObject2.setFirstName("Mike");
+		customerObject2.setLastName("Colins");
+		customerObject2.setCustomerNo(10000083L);
+		customerObject2.setEmail("mike.colins@gmail.com");
+		customerObject2.setAddress(address2);
+		customerObject2.setCreditCardNo(cc2);
+
+		Customer customerObject3 = new Customer();
+
+		Address address3 = new Address();
+		address3.setStreet("123 Example St");
+		address3.setCity("Chicago");
+		address3.setState("IL");
+		address3.setZip("00964");
+
+		CreditCard cc3 = new CreditCard();
+		cc1.setCreditCardNo("1500456898651234");
+
+		customerObject3.setFirstName("Pat");
+		customerObject3.setLastName("Long");
+		customerObject3.setCustomerNo(10000084L);
+		customerObject3.setEmail("pat.long43@gmail.com");
+		customerObject3.setAddress(address3);
+		customerObject3.setCreditCardNo(cc3);
+
+		customerList.add(customerObject1);
+		customerList.add(customerObject2);
+		customerList.add(customerObject3);
+
+		return customerList;
+
+	}
+	
+	private List<Phone> getPhoneNumberObjects() {
+		List<Phone> phones = new ArrayList<Phone>();
+
+		Phone phone1 = new Phone();
+		phone1.setCustomerNo(10000082L);
+		phone1.setPhoneNumber("1234");
+		phone1.setType("Mobile");
+
+		Phone phone2 = new Phone();
+		phone2.setCustomerNo(10000083L);
+		phone2.setPhoneNumber("2345");
+		phone2.setType("Mobile");
+
+		Phone phone3 = new Phone();
+		phone3.setCustomerNo(10000084L);
+		phone3.setPhoneNumber("5678");
+		phone3.setType("Mobile");
+
+		phones.add(phone1);
+		phones.add(phone2);
+		phones.add(phone3);
+
+		return phones;
+
+	}
+	
+	private List<Book> getBookObjects(){
+		List<Book> bookOjectList = new ArrayList<Book>();
+		
+		Book bookObject1 = new Book();
+		bookObject1.setBookNo(0001);
+		bookObject1.setBookName("Java");
+		bookObject1.setBookType("Hard Copy");
+		bookObject1.setBookCategory("Textbook");
+		
+		Book bookObject2 = new Book();
+		bookObject2.setBookNo(0002);
+		bookObject2.setBookName("Nature");
+		bookObject2.setBookType("eBook");
+		bookObject2.setBookCategory("Magazine");
+		
+		Book bookObject3 = new Book();
+		bookObject3.setBookNo(0003);
+		bookObject3.setBookName("Game of Thrones");
+		bookObject3.setBookType("eBook");
+		bookObject3.setBookCategory("Novel");
+		
+		bookOjectList.add(bookObject1);
+		bookOjectList.add(bookObject2);
+		bookOjectList.add(bookObject3);
+		
+		
+		
+		return bookOjectList;
+	}
+	
+	
+	public void insertValuesToTables(Connection conn) {
+		// insert queries
+
+		// insert into SHIP
+		// create ship objects
+		this.insertIntoBookTable(conn);
+
+		// create a method to insert to customer table ( // create a method to
+		// insert into phonenumber)
+		this.insertIntoCustomerTable(conn);
+//
+//		this.insertIntoCruiseTable(conn);
+//		this.insertIntoReservationTable(conn);
+		// because phonnumebr table contains custoemr id
+		// that means firts insert into customer table table then insert into
+		// phone numberd
+
+//		this.insertIntoCabinTable(conn);
+
+		this.insertIntoPhoneNumberTable(conn);
+
+		// create amethod toninsert into cabin
+
+//		this.insertIntoCustomerReservationTable(conn);
+
+//		this.insertIntoCabinReservationTable(conn);
+
+		// create objects
+
+		// statements
+	}
+	
+	private void insertIntoCustomerTable(Connection conn) {
+		// String insertIntoCustomerTableQuery1 = "INSERT INTO customer VALUES "
+		// +
+		// "(000000000002, 'Tom', 'Rinka', 'trink@gmail.com', '123 ExampleSt',
+		// 'Cleveland', 'OH', "
+		// + "'75244', '1200456898651234');";
+		String insertIntoCustomerTableQuery = "INSERT INTO customer VALUES " + "(?, ?, ?,?,?,?,?,?,?);";
+
+		// loop the list fo ship objects and exceute insert query
+
+		System.out.println("Size : " + this.getCustomerObjects());
+		PreparedStatement pst = null;
+		for (Customer customerObeject : this.getCustomerObjects()) {
+
+			try {
+				pst = conn.prepareStatement(insertIntoCustomerTableQuery);
+
+				pst.setLong(1, customerObeject.getCustomerNo());
+				pst.setString(2, customerObeject.getFirstName());
+				pst.setString(3, customerObeject.getLastName());
+				pst.setString(4, customerObeject.getEmail());
+
+				pst.setString(5, customerObeject.getAddress().getStreet());
+				pst.setString(6, customerObeject.getAddress().getCity());
+				pst.setString(7, customerObeject.getAddress().getState());
+				pst.setString(8, customerObeject.getAddress().getZip());
+				pst.setString(9, customerObeject.getCreditCard().getCreditCardNo());
+
+				pst.execute();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+
+	private void insertIntoPhoneNumberTable(Connection conn) {
+
+		String insertIntoPhoneNumberQuery = "INSERT INTO phoneNumber VALUES " + "(?,?, ?);";
+		PreparedStatement pst = null;
+
+		try {
+
+			for (Phone phone : this.getPhoneNumberObjects()) {
+				pst = conn.prepareStatement(insertIntoPhoneNumberQuery);
+				pst.setString(1, phone.getPhoneNumber());
+				pst.setLong(2, phone.getCustomerNo());
+				pst.setString(3, phone.getType());
+
+				pst.executeUpdate();
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	private void insertIntoBookTable(Connection conn){
+		
+		String insertIntoBookQuery = "INSERT INTO book VALUES " + "(?, ?,?,?);";
+		PreparedStatement pst = null;
+		
+		try {
+			
+			for (Book book : this.getBookObjects()){
+				pst = conn.prepareStatement(insertIntoBookQuery);
+				pst.setInt(1, book.getBookNo());
+				pst.setString(2, book.getBookName());
+				pst.setString(3, book.getBookType());
+				pst.setString(4, book.getBookCategory());
+				
+				pst.executeUpdate();
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 	
