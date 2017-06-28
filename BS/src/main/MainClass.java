@@ -1,7 +1,6 @@
 package main;
 
-import java.awt.event.MouseWheelEvent;
-import java.awt.geom.CubicCurve2D;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,8 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SpringLayout.Constraints;
-import javax.swing.text.DefaultEditorKit.InsertBreakAction;
+
 
 import dbconnection.MakeConnection;
 import model.*;
