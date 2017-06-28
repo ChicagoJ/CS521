@@ -115,10 +115,10 @@ public class MainClass {
 
 			statement.executeUpdate(createTablePhoneNumberQuery);
 			
-			String createTableMemberShipQuery = "CREATE table memberShip (memberId INT(12) NOT NULL, customerNo INT(12) NOT NULL, constraint membershipPK primary key (memberId), constraint memberFK foreign key(customerNo) references customer (customerNo)); ";
+			String createTableMemberShipQuery = "CREATE table memberShip (memberId INT(12) NOT NULL, customerNo INT(12) NOT NULL, startDate DATE, endDate DATE, constraint membershipPK primary key (memberId)); ";
 			statement.executeUpdate(createTableMemberShipQuery);
 			
-			String createTableCustomerOrderQuery = "CREATE table customerOrder (orderNo INT(12) NOT NULL, customerNo INT (12) NOT NULL, constraint customerOrderPK primary key(orderNo), constraint orderFK foreign key(orderNo) references productOrder(orderNo), constraint customerFK foreign key(customerNo)references customer(customerNo) );";
+			String createTableCustomerOrderQuery = "CREATE table customerOrder (orderNo INT(12) NOT NULL, customerNo INT (12) NOT NULL, constraint customerOrderPK primary key(orderNo));";
 			statement.executeUpdate(createTableCustomerOrderQuery);
 
 		
@@ -373,12 +373,12 @@ public class MainClass {
 		customerOrder2.setorderNo(1112);
 		
 		CustomerOrder customerOrder3 = new CustomerOrder();
-		customerOrder3.setCustomerNo(10000083L);
+		customerOrder3.setCustomerNo(10000061L);
 		customerOrder3.setorderNo(1113);
 		
 		customerOrders.add(customerOrder1);
 		customerOrders.add(customerOrder2);
-		customerOrders.add(customerOrder2);
+		customerOrders.add(customerOrder3);
 		
 		
 		
@@ -395,7 +395,7 @@ public class MainClass {
 		memberShip1.setEndDate("06/23/2017");
 		
 		memberShipsList.add(memberShip1);
-		
+//		System.out.println(memberShip1);
 		return memberShipsList;
 	}
 	
@@ -414,7 +414,7 @@ public class MainClass {
 		
 		this.insertIntoOrderTable(conn);
 		
-//		this.insertIntoCustomerOrderTable(conn);
+		this.insertIntoCustomerOrderTable(conn);
 		
 		this.insertIntoMemberShipTable(conn);
 
@@ -558,6 +558,23 @@ public class MainClass {
 	private void insertIntoMemberShipTable(Connection conn) {
 		String insertIntoMemberShipQuery = "INSERT INTO memberShip VALUES"
 				+ "(?, ?, STR_TO_DATE(?,'%m/%d/%Y'),STR_TO_DATE(?,'%m/%d/%Y'));";
+		
+		PreparedStatement pst = null;
+		
+		try {
+			for (MemberShip memberShip:this.getMemberShipObjects()){
+				pst = conn.prepareStatement(insertIntoMemberShipQuery);
+				pst.setInt(1, memberShip.getMemberId());
+				pst.setLong(2, memberShip.getcustomerNo());
+				pst.setString(3, memberShip.getStartDate());
+				pst.setString(4, memberShip.getEndDate());
+				
+				pst.executeUpdate();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		
 	}
 	
