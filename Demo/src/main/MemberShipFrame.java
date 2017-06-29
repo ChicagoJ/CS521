@@ -106,7 +106,7 @@ public class MemberShipFrame extends JFrame implements RowSetListener {
 		textFieldDatePaid.setText("Do not type here");
 
 		button_ADD_ROW.setText("Add row to table");
-		button_UPDATE_DATABASE.setText("Update database");
+		button_UPDATE_DATABASE.setText("Delete");
 		button_DISCARD_CHANGES.setText("Show table");
 
 		Container contentPane = getContentPane();

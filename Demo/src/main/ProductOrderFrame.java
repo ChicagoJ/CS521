@@ -106,7 +106,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 		textFieldDatePaid.setText("Do not type here");
 
 		button_ADD_ROW.setText("Add row to table");
-		button_UPDATE_DATABASE.setText("Update database");
+		button_UPDATE_DATABASE.setText("Read");
 		button_DISCARD_CHANGES.setText("Show table");
 
 		Container contentPane = getContentPane();
@@ -253,7 +253,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 			public void actionPerformed(ActionEvent e) {
 
 				JOptionPane.showMessageDialog(ProductOrderFrame.this,
-						new String[] { "Command submitted",
+						new String[] { "Command Submitted",
 								});
 //				System.out.println("ooxx");
 

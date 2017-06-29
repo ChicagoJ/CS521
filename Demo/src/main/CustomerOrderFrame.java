@@ -108,7 +108,7 @@ public class CustomerOrderFrame extends JFrame implements RowSetListener {
 
 		button_ADD_ROW.setText("Add row to table");
 		button_UPDATE_DATABASE.setText("Update database");
-		button_DISCARD_CHANGES.setText("Show table");
+		button_DISCARD_CHANGES.setText("Discard changes");
 
 		Container contentPane = getContentPane();
 		contentPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -160,41 +160,41 @@ public class CustomerOrderFrame extends JFrame implements RowSetListener {
 		c.gridwidth = 1;
 		contentPane.add(textFieldBookNumber, c);
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.25;
-		c.weighty = 0;
-		c.gridx = 0;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		contentPane.add(labelDateOfOrder, c);
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.anchor = GridBagConstraints.LINE_START;
+//		c.weightx = 0.25;
+//		c.weighty = 0;
+//		c.gridx = 0;
+//		c.gridy = 3;
+//		c.gridwidth = 1;
+//		contentPane.add(labelDateOfOrder, c);
+//
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.anchor = GridBagConstraints.LINE_END;
+//		c.weightx = 0.75;
+//		c.weighty = 0;
+//		c.gridx = 1;
+//		c.gridy = 3;
+//		c.gridwidth = 1;
+//		contentPane.add(textFieldDateOfOrder, c);
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LINE_END;
-		c.weightx = 0.75;
-		c.weighty = 0;
-		c.gridx = 1;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		contentPane.add(textFieldDateOfOrder, c);
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.25;
-		c.weighty = 0;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		contentPane.add(labelDatePaid, c);
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LINE_END;
-		c.weightx = 0.75;
-		c.weighty = 0;
-		c.gridx = 1;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		contentPane.add(textFieldDatePaid, c);
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.anchor = GridBagConstraints.LINE_START;
+//		c.weightx = 0.25;
+//		c.weighty = 0;
+//		c.gridx = 0;
+//		c.gridy = 4;
+//		c.gridwidth = 1;
+//		contentPane.add(labelDatePaid, c);
+//
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		c.anchor = GridBagConstraints.LINE_END;
+//		c.weightx = 0.75;
+//		c.weighty = 0;
+//		c.gridx = 1;
+//		c.gridy = 4;
+//		c.gridwidth = 1;
+//		contentPane.add(textFieldDatePaid, c);
 
 //
 //		c.fill = GridBagConstraints.HORIZONTAL;
@@ -254,8 +254,7 @@ public class CustomerOrderFrame extends JFrame implements RowSetListener {
 			public void actionPerformed(ActionEvent e) {
 
 				JOptionPane.showMessageDialog(CustomerOrderFrame.this,
-						new String[] { "BookNumber:[",
-								textFieldBookNumber.getText() +"]",
+						new String[] { "Command Submitted",
 								});
 //				System.out.println("ooxx");
 
@@ -265,7 +264,7 @@ public class CustomerOrderFrame extends JFrame implements RowSetListener {
 //							Integer.parseInt(textFieldBookNumber.getText().trim()),
 //							new Date(Date.parse(textFieldDateOfOrder.getText().trim())),
 //							new Date(Date.parse(textFieldDatePaid.getText().trim())));
-					String sql = "update customerOrder set orderNo = " + textFiledOrderNumber.getText().trim() +" where customerNo = " + textFieldBookNumber.getText().trim() + ";";
+					String sql = "update customerOrder set customerNo = " + textFieldBookNumber.getText().trim() +" where orderNo = " + textFiledOrderNumber.getText().trim() + ";";
 					updateTableModel(sql);
 				} catch (SQLException sqle) {
 					displaySQLExceptionDialog(sqle);
