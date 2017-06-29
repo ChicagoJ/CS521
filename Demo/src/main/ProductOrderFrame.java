@@ -229,19 +229,18 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 			public void actionPerformed(ActionEvent e) {
 
 				JOptionPane.showMessageDialog(ProductOrderFrame.this,
-						new String[] { "Adding the following row:",
-								"Order Number: [" + textFiledOrderNumber.getText() + "]",
-								"Book Number: [" + textFieldBookNumber.getText() + "]",
-								"DateOfOrder: [" + textFieldDateOfOrder.getText() + "]",
-								"DatePaid: [" + textFieldDatePaid.getText() + "]" });
+						new String[] { "Check the query",
+							textFiledOrderNumber.getText() ,
+								});
 //				System.out.println("ooxx");
 
 				try {
-					
-					reservationModel.insertRow(textFiledOrderNumber.getText().trim(),
-							Integer.parseInt(textFieldBookNumber.getText().trim()),
-							textFieldDateOfOrder.getText().trim(),
-							textFieldDatePaid.getText().trim());
+//					
+//					reservationModel.insertRow(textFiledOrderNumber.getText().trim(),
+//							Integer.parseInt(textFieldBookNumber.getText().trim()),
+//							new Date(Date.parse(textFieldDateOfOrder.getText().trim())),
+//							new Date(Date.parse(textFieldDatePaid.getText().trim())));
+					updateTableModel(textFieldBookNumber.getText().trim());
 				} catch (SQLException sqle) {
 					displaySQLExceptionDialog(sqle);
 				}
@@ -292,6 +291,12 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 		table.setModel(reservationModel);
 	}
 
+	private void updateTableModel(String sql) throws SQLException{
+		reservationModel = new ReservationModel(getContentsOfReservationTable1(sql));
+		reservationModel.addEventHandlersToRowSet(this);
+		table.setModel(reservationModel);
+	}
+	
 	private void displaySQLExceptionDialog(SQLException e) {
 
 		// Display the SQLException in a dialog box
@@ -322,6 +327,38 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 			// Regardless of the query, fetch the contents of COFFEES
 
 			crs.setCommand("select * from productOrder");
+			crs.execute();
+
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return crs;
+
+	}
+	
+	private CachedRowSet getContentsOfReservationTable1( String sql) {
+
+		// write code to fetch the records from reservation table
+		// setting for scroll option
+
+		CachedRowSet crs = null;
+		try {
+			connection = MakeConnection.getConnection("BS");
+			crs = new CachedRowSetImpl();
+			crs.setType(ResultSet.TYPE_SCROLL_INSENSITIVE);
+			crs.setConcurrency(ResultSet.CONCUR_UPDATABLE);
+			crs.setUsername("root");
+			crs.setPassword("nyit");
+
+			// In MySQL, to disable auto-commit, set the property
+			// relaxAutoCommit to
+			// true in the connection URL.
+
+			crs.setUrl("jdbc:mysql://localhost:3306/BS?relaxAutoCommit=true");
+
+			// Regardless of the query, fetch the contents of COFFEES
+
+			crs.setCommand(sql);
 			crs.execute();
 
 		} catch (SQLException e) {

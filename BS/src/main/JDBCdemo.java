@@ -59,17 +59,17 @@ public class JDBCdemo {
 		List<Phone> phones = new ArrayList<Phone>();
 
 		Phone phone1 = new Phone();
-		phone1.setCustomerNo(10000082L);
+		phone1.setCustomerNo(10000082);
 		phone1.setPhoneNumber("5432");
 		phone1.setType("Home");
 
 		Phone phone2 = new Phone();
-		phone2.setCustomerNo(10000083L);
+		phone2.setCustomerNo(10000083);
 		phone2.setPhoneNumber("6543");
 		phone2.setType("Home");
 
 		Phone phone3 = new Phone();
-		phone3.setCustomerNo(10000084L);
+		phone3.setCustomerNo(10000084);
 		phone3.setPhoneNumber("7654");
 		phone3.setType("Home");
 

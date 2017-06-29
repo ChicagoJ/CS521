@@ -2,6 +2,7 @@ package main;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -92,8 +93,8 @@ public class MainClass {
 
 			String createProductOrderQuery = "CREATE TABLE productOrder (orderNo INT(12) NOT NULL, "
 					+ "bookNo INT(6) NOT NULL, dateReservationMade DATE, datePaid DATE,"
-					+ "CONSTRAINT orderPK PRIMARY KEY (orderNo), "
-					+ "CONSTRAINT orderbookFK FOREIGN KEY (bookNo) " + "REFERENCES book (bookNo));";
+					+ "CONSTRAINT orderPK PRIMARY KEY (orderNo)); ";
+//					+ "CONSTRAINT orderbookFK FOREIGN KEY (bookNo) " + "REFERENCES book (bookNo));";
 
 			statement.executeUpdate(createProductOrderQuery);
 
@@ -223,7 +224,7 @@ public class MainClass {
 
 		customerObject1.setFirstName("Rob");
 		customerObject1.setLastName("McDonald");
-		customerObject1.setCustomerNo(10000082L);
+		customerObject1.setCustomerNo(10000082);
 		customerObject1.setEmail("rob.mcd@gmail.com");
 		customerObject1.setAddress(address1);
 		customerObject1.setCreditCardNo(cc1);
@@ -241,7 +242,7 @@ public class MainClass {
 
 		customerObject2.setFirstName("Mike");
 		customerObject2.setLastName("Colins");
-		customerObject2.setCustomerNo(10000083L);
+		customerObject2.setCustomerNo(10000083);
 		customerObject2.setEmail("mike.colins@gmail.com");
 		customerObject2.setAddress(address2);
 		customerObject2.setCreditCardNo(cc2);
@@ -259,7 +260,7 @@ public class MainClass {
 
 		customerObject3.setFirstName("Pat");
 		customerObject3.setLastName("Long");
-		customerObject3.setCustomerNo(10000084L);
+		customerObject3.setCustomerNo(10000084);
 		customerObject3.setEmail("pat.long43@gmail.com");
 		customerObject3.setAddress(address3);
 		customerObject3.setCreditCardNo(cc3);
@@ -276,17 +277,17 @@ public class MainClass {
 		List<Phone> phones = new ArrayList<Phone>();
 
 		Phone phone1 = new Phone();
-		phone1.setCustomerNo(10000082L);
+		phone1.setCustomerNo(10000082);
 		phone1.setPhoneNumber("1234");
 		phone1.setType("Mobile");
 
 		Phone phone2 = new Phone();
-		phone2.setCustomerNo(10000083L);
+		phone2.setCustomerNo(10000083);
 		phone2.setPhoneNumber("2345");
 		phone2.setType("Mobile");
 
 		Phone phone3 = new Phone();
-		phone3.setCustomerNo(10000084L);
+		phone3.setCustomerNo(10000084);
 		phone3.setPhoneNumber("5678");
 		phone3.setType("Mobile");
 
@@ -328,34 +329,40 @@ public class MainClass {
 		return bookOjectList;
 	}
 	
-	private List<Order> getProductOrderObjects() {
-		List<Order> productOrders = new ArrayList<Order>();
-		
-		Order order1 = new Order();
-		order1.setOrderNo(1111);
-		order1.setBookNo(001);
-		order1.setDateOrderMade("06/23/2017");
-		order1.setDatePaid("06/23/2017");
-		
-		Order order2 = new Order();
-		order2.setOrderNo(1112);
-		order2.setBookNo(002);
-		order2.setDateOrderMade("06/25/2017");
-		order2.setDatePaid(null);
-		
-		
-		Order order3 = new Order();
-		order3.setOrderNo(1113);
-		order3.setBookNo(001);
-		order3.setDateOrderMade("05/30/2017");
-		order3.setDatePaid("06/01/2017");
-		
-		productOrders.add(order1);
-		productOrders.add(order2);
-		productOrders.add(order3);
-		
-		return productOrders;
-		
+	private List<Reservation> getProductOrderObjects() {
+		List<Reservation> reservationObjectList = new ArrayList<Reservation>();
+
+		Reservation reservationObject1 = new Reservation();
+		reservationObject1.setReservationNo(000000000001);
+		reservationObject1.setCruiseNo(000001);
+		reservationObject1.setDateReservationMade("02/21/2017");
+		reservationObject1.setDatePaid("02/21/2017");
+
+		Reservation reservationObject2 = new Reservation();
+		reservationObject2.setReservationNo(000000000002);
+		reservationObject2.setCruiseNo(000002);
+		reservationObject2.setDateReservationMade("04/25/2017");
+		reservationObject2.setDatePaid("04/25/2017");
+
+		Reservation reservationObject3 = new Reservation();
+		reservationObject3.setReservationNo(000000000003);
+		reservationObject3.setCruiseNo(000003);
+		reservationObject3.setDateReservationMade("03/16/2017");
+		reservationObject3.setDatePaid("03/16/2017");
+
+		Reservation reservationObject4 = new Reservation();
+		reservationObject4.setReservationNo(000000000004);
+		reservationObject4.setCruiseNo(000004);
+		reservationObject4.setDateReservationMade("04/21/2017");
+		reservationObject4.setDatePaid("04/21/2017");
+
+		reservationObjectList.add(reservationObject1);
+		reservationObjectList.add(reservationObject2);
+		reservationObjectList.add(reservationObject3);
+		reservationObjectList.add(reservationObject4);
+
+		return reservationObjectList;
+
 	}
 	
 	private List<CustomerOrder> getCustomerOrderObjects() {
@@ -363,15 +370,15 @@ public class MainClass {
 		List<CustomerOrder> customerOrders = new ArrayList<CustomerOrder>();
 		
 		CustomerOrder customerOrder1 = new CustomerOrder();
-		customerOrder1.setCustomerNo(10000081L);
+		customerOrder1.setCustomerNo(10000081);
 		customerOrder1.setorderNo(1111);
 		
 		CustomerOrder customerOrder2 = new CustomerOrder();
-		customerOrder2.setCustomerNo(10000082L);
+		customerOrder2.setCustomerNo(10000082);
 		customerOrder2.setorderNo(1112);
 		
 		CustomerOrder customerOrder3 = new CustomerOrder();
-		customerOrder3.setCustomerNo(10000061L);
+		customerOrder3.setCustomerNo(10000061);
 		customerOrder3.setorderNo(1113);
 		
 		customerOrders.add(customerOrder1);
@@ -388,7 +395,7 @@ public class MainClass {
 		List<MemberShip> memberShipsList = new ArrayList<MemberShip>();
 		MemberShip memberShip1 = new MemberShip();
 		memberShip1.setmemberId(00001);
-		memberShip1.setcustomerNo(10000081L);
+		memberShip1.setcustomerNo(10000081);
 		memberShip1.setStartDate("06/24/2017");
 		memberShip1.setEndDate("06/23/2017");
 		
@@ -513,15 +520,15 @@ public class MainClass {
 		
 		try {
 			
-			for (Order order: this.getProductOrderObjects()){
+			for (Reservation reservation : this.getProductOrderObjects()) {
 				pst = conn.prepareStatement(insertIntoOrderTableQuery);
-				
-				pst.setInt(1, order.getOrderNo());
-				pst.setInt(2, order.getBookNo());
-				pst.setString(3, order.getDateOrderMade());
-				pst.setString(4, order.getDatePaid());
-				
-				pst.executeUpdate();
+
+				pst.setInt(1, reservation.getReservationNo());
+				pst.setInt(2, reservation.getCruiseNo());
+				pst.setString(3, reservation.getDateReservationMade());
+				pst.setString(4, reservation.getDatePaid());
+
+				pst.execute();
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
