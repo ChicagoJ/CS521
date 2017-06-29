@@ -26,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.omg.PortableServer.ServantActivator;
+
 import com.sun.rowset.*;
 
 import dbconnection.MakeConnection;
@@ -99,6 +101,188 @@ public class ProductOrderFrame extends JFrame implements RowSetListener{
 	labelDateOfOrder.setText("DateOfOrder:");
 	labelDatePaid.setText("DatePaid:");
 	
+	textFieldBookNumber.setText("enter book number here");
+	textFiledOrderNumber.setText("0");
+	textFieldDateOfOrder.setText("12/30/2000");
+	textFieldDatePaid.setText("12/30/2000");
+	
+	button_ADD_ROW.setText("Add row to table");
+	button_UPDATE_DATABASE.setText("Update database");
+	button_DISCARD_CHANGES.setText("Discard changes");
+
+	Container contentPane = getContentPane();
+	contentPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+	contentPane.setLayout(new GridBagLayout());
+	GridBagConstraints c = new GridBagConstraints();
+
+	c.fill = GridBagConstraints.BOTH;
+	c.anchor = GridBagConstraints.CENTER;
+	c.weightx = 0.5;
+	c.weighty = 1.0;
+	c.gridx = 0;
+	c.gridy = 0;
+	c.gridwidth = 2;
+	contentPane.add(new JScrollPane(table), c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_START;
+	c.weightx = 0.25;
+	c.weighty = 0;
+	c.gridx = 0;
+	c.gridy = 1;
+	c.gridwidth = 1;
+	contentPane.add(labelOrderNumber, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_END;
+	c.weightx = 0.75;
+	c.weighty = 0;
+	c.gridx = 1;
+	c.gridy = 1;
+	c.gridwidth = 1;
+	contentPane.add(textFiledOrderNumber, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.weightx = 0.25;
+	c.weighty = 0;
+	c.anchor = GridBagConstraints.LINE_START;
+	c.gridx = 0;
+	c.gridy = 2;
+	c.gridwidth = 1;
+	contentPane.add(labelBookNumber, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_END;
+	c.weightx = 0.75;
+	c.weighty = 0;
+	c.gridx = 1;
+	c.gridy = 2;
+	c.gridwidth = 1;
+	contentPane.add(textFieldBookNumber, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_START;
+	c.weightx = 0.25;
+	c.weighty = 0;
+	c.gridx = 0;
+	c.gridy = 3;
+	c.gridwidth = 1;
+	contentPane.add(labelDateOfOrder, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_END;
+	c.weightx = 0.75;
+	c.weighty = 0;
+	c.gridx = 1;
+	c.gridy = 3;
+	c.gridwidth = 1;
+	contentPane.add(textFieldDateOfOrder, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_START;
+	c.weightx = 0.25;
+	c.weighty = 0;
+	c.gridx = 0;
+	c.gridy = 4;
+	c.gridwidth = 1;
+	contentPane.add(labelDatePaid, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_END;
+	c.weightx = 0.75;
+	c.weighty = 0;
+	c.gridx = 1;
+	c.gridy = 4;
+	c.gridwidth = 1;
+	contentPane.add(textFieldDatePaid, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_START;
+	c.weightx = 0.5;
+	c.weighty = 0;
+	c.gridx = 0;
+	c.gridy = 6;
+	c.gridwidth = 1;
+	contentPane.add(button_ADD_ROW, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_END;
+	c.weightx = 0.5;
+	c.weighty = 0;
+	c.gridx = 1;
+	c.gridy = 6;
+	c.gridwidth = 1;
+	contentPane.add(button_UPDATE_DATABASE, c);
+
+	c.fill = GridBagConstraints.HORIZONTAL;
+	c.anchor = GridBagConstraints.LINE_START;
+	c.weightx = 0.5;
+	c.weighty = 0;
+	c.gridx = 0;
+	c.gridy = 7;
+	c.gridwidth = 1;
+	contentPane.add(button_DISCARD_CHANGES, c);
+
+	button_ADD_ROW.addActionListener(new ActionListener() {
+
+		@SuppressWarnings("deprecation")
+		public void actionPerformed(ActionEvent e) {
+
+			JOptionPane.showMessageDialog(ProductOrderFrame.this,
+					new String[] { "Adding the following row:",
+							"Order Number: [" + textFiledOrderNumber.getText() + "]",
+							"Book Number: [" + textFieldBookNumber.getText() + "]",
+							"DateOfOrder: [" + textFieldDateOfOrder.getText() + "]",
+							"DatePaid: [" + textFieldDatePaid.getText() + "]" });
+
+
+			try {
+
+				productOrderModel.insertRow(textFiledOrderNumber.getText().trim(),
+						Integer.parseInt(textFieldBookNumber.getText().trim()),
+						new Date(Date.parse(textFieldDateOfOrder.getText().trim())),
+						new Date(Date.parse(textFieldDatePaid.getText().trim())));
+			} catch (SQLException sqle) {
+				displaySQLExceptionDialog(sqle);
+			}
+		}
+
+	});
+
+	button_UPDATE_DATABASE.addActionListener(new ActionListener() {
+
+		public void actionPerformed(ActionEvent e) {
+			try {
+//				ProductOrderModel.OrderRowSet.acceptChanges();
+				productOrderModel.OrderRowSet.acceptChanges();
+				// Update customer table as well
+				// Assuming customer id is 10000082
+				// This section can be improvised to bring dynamic customer
+				// id.
+
+
+			} catch (SQLException sqle) {
+				displaySQLExceptionDialog(sqle);
+				// Now revert back changes
+				try {
+					createNewTableModel();
+				} catch (SQLException sqle2) {
+					displaySQLExceptionDialog(sqle2);
+				}
+			}
+		}
+
+	});
+
+	button_DISCARD_CHANGES.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				createNewTableModel();
+			} catch (SQLException sqle) {
+				displaySQLExceptionDialog(sqle);
+			}
+		}
+	});
 	}
 	
 	
@@ -137,11 +321,11 @@ public class ProductOrderFrame extends JFrame implements RowSetListener{
 			// relaxAutoCommit to
 			// true in the connection URL.
 
-			crs.setUrl("jdbc:mysql://localhost:3306/OC?relaxAutoCommit=true");
+			crs.setUrl("jdbc:mysql://localhost:3306/BS?relaxAutoCommit=true");
 
 			// Regardless of the query, fetch the contents of COFFEES
 
-			crs.setCommand("select reservationNo, cruiseNo, dateReservationMade, datePaid from reservation");
+			crs.setCommand("select orderNo, bookNo, dateReservationMade, datePaid from productOrder");
 			crs.execute();
 
 		} catch (SQLException e) {
@@ -184,6 +368,25 @@ public class ProductOrderFrame extends JFrame implements RowSetListener{
 		return false;
 	}
 	
+
+	public static void main(String args[]){
+		try {
+			ProductOrderFrame productOrderFrame = new ProductOrderFrame();
+			productOrderFrame.setTitle("Product Order");
+			productOrderFrame.setSize(600, 600);
+			productOrderFrame.setVisible(true);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+
+	
+	
+	
+	
+	
 	@Override
 	public void rowSetChanged(RowSetEvent event) {
 		// TODO Auto-generated method stub
@@ -193,6 +396,26 @@ public class ProductOrderFrame extends JFrame implements RowSetListener{
 	@Override
 	public void rowChanged(RowSetEvent event) {
 		// TODO Auto-generated method stub
+		CachedRowSet currentRowSet = this.productOrderModel.OrderRowSet;
+
+		try {
+			currentRowSet.moveToCurrentRow();
+			productOrderModel = new ProductOrderModel(productOrderModel.getCoffeesRowSet());
+			table.setModel(productOrderModel);
+
+		} catch (SQLException ex) {
+
+			printSQLException(ex);
+
+			// Display the error in a dialog box.
+
+			JOptionPane.showMessageDialog(ProductOrderFrame.this, new String[] { // Display
+																				// a
+																				// 2-line
+																				// message
+					ex.getClass().getName() + ": ", ex.getMessage() });
+		}
+
 		
 	}
 
