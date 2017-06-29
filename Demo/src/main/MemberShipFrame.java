@@ -28,11 +28,11 @@ import javax.swing.JTextField;
 import com.sun.rowset.*;
 
 import dbconnection.MakeConnection;
-import main.ProductOrderFrame;
+import main.MemberShipFrame;
 import model.ProductOrderModel;
 import model.ReservationModel;
 
-public class ProductOrderFrame extends JFrame implements RowSetListener {
+public class MemberShipFrame extends JFrame implements RowSetListener {
 
 
 	Connection connection;
@@ -55,7 +55,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 	ReservationModel reservationModel;
 
-	public ProductOrderFrame() throws SQLException {
+	public MemberShipFrame() throws SQLException {
 
 		// get the connection
 		connection = MakeConnection.getConnection("BS");
@@ -95,13 +95,13 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 		button_UPDATE_DATABASE = new JButton();
 		button_DISCARD_CHANGES = new JButton();
 
-		labelOrderNumber.setText("OrderNumber:");
-		labelBookNumber.setText("BookNumber:");
-		labelDateOfOrder.setText("DateOfOrder:");
-		labelDatePaid.setText("DatePaid:");
+		labelOrderNumber.setText("memberId:");
+		labelBookNumber.setText("customerNo:");
+		labelDateOfOrder.setText("startDate");
+		labelDatePaid.setText("endDate");
 		
-		textFieldBookNumber.setText("enter book number here");
-		textFiledOrderNumber.setText("Do not type here");
+		textFiledOrderNumber.setText("enter member Id here");
+		textFieldBookNumber.setText("Do not type here");
 		textFieldDateOfOrder.setText("Do not type here");
 		textFieldDatePaid.setText("Do not type here");
 
@@ -228,7 +228,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 //			@SuppressWarnings("deprecation")
 //			public void actionPerformed(ActionEvent e) {
 //
-//				JOptionPane.showMessageDialog(ProductOrderFrame.this,
+//				JOptionPane.showMessageDialog(MemberShipFrame.this,
 //						new String[] { "Check the query",
 //							textFiledOrderNumber.getText() ,
 //								});
@@ -252,8 +252,8 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 			public void actionPerformed(ActionEvent e) {
 
-				JOptionPane.showMessageDialog(ProductOrderFrame.this,
-						new String[] { "Command submitted",
+				JOptionPane.showMessageDialog(MemberShipFrame.this,
+						new String[] { "Command Submiited",
 								});
 //				System.out.println("ooxx");
 
@@ -263,7 +263,8 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 //							Integer.parseInt(textFieldBookNumber.getText().trim()),
 //							new Date(Date.parse(textFieldDateOfOrder.getText().trim())),
 //							new Date(Date.parse(textFieldDatePaid.getText().trim())));
-					updateTableModel("select * from productOrder where bookNo = " + textFieldBookNumber.getText().trim());
+					String sql = "delete from memberShip where memberId = " + textFiledOrderNumber.getText().trim();
+					updateTableModel(sql);
 				} catch (SQLException sqle) {
 					displaySQLExceptionDialog(sqle);
 				}
@@ -299,7 +300,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 	private void displaySQLExceptionDialog(SQLException e) {
 
 		// Display the SQLException in a dialog box
-		JOptionPane.showMessageDialog(ProductOrderFrame.this,
+		JOptionPane.showMessageDialog(MemberShipFrame.this,
 				new String[] { e.getClass().getName() + ": ", e.getMessage() });
 	}
 
@@ -325,7 +326,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 			// Regardless of the query, fetch the contents of COFFEES
 
-			crs.setCommand("select * from productOrder");
+			crs.setCommand("select * from memberShip");
 			crs.execute();
 
 		} catch (SQLException e) {
@@ -415,8 +416,8 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 	public static void main(String args[]) {
 		try {
-			ProductOrderFrame reservationFrame = new ProductOrderFrame();
-			reservationFrame.setTitle("Order");
+			MemberShipFrame reservationFrame = new MemberShipFrame();
+			reservationFrame.setTitle("MemberShip");
 			reservationFrame.setSize(600, 600);
 			reservationFrame.setVisible(true);
 		} catch (SQLException e) {
@@ -443,7 +444,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 			// Display the error in a dialog box.
 
-			JOptionPane.showMessageDialog(ProductOrderFrame.this, new String[] { // Display
+			JOptionPane.showMessageDialog(MemberShipFrame.this, new String[] { // Display
 																				// a
 																				// 2-line
 																				// message

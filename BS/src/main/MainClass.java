@@ -333,26 +333,26 @@ public class MainClass {
 		List<Reservation> reservationObjectList = new ArrayList<Reservation>();
 
 		Reservation reservationObject1 = new Reservation();
-		reservationObject1.setReservationNo(000000000001);
-		reservationObject1.setCruiseNo(000001);
+		reservationObject1.setReservationNo(1111);
+		reservationObject1.setCruiseNo(1);
 		reservationObject1.setDateReservationMade("02/21/2017");
 		reservationObject1.setDatePaid("02/21/2017");
 
 		Reservation reservationObject2 = new Reservation();
-		reservationObject2.setReservationNo(000000000002);
-		reservationObject2.setCruiseNo(000002);
+		reservationObject2.setReservationNo(1112);
+		reservationObject2.setCruiseNo(2);
 		reservationObject2.setDateReservationMade("04/25/2017");
 		reservationObject2.setDatePaid("04/25/2017");
 
 		Reservation reservationObject3 = new Reservation();
-		reservationObject3.setReservationNo(000000000003);
-		reservationObject3.setCruiseNo(000003);
+		reservationObject3.setReservationNo(1113);
+		reservationObject3.setCruiseNo(2);
 		reservationObject3.setDateReservationMade("03/16/2017");
 		reservationObject3.setDatePaid("03/16/2017");
 
 		Reservation reservationObject4 = new Reservation();
-		reservationObject4.setReservationNo(000000000004);
-		reservationObject4.setCruiseNo(000004);
+		reservationObject4.setReservationNo(1114);
+		reservationObject4.setCruiseNo(3);
 		reservationObject4.setDateReservationMade("04/21/2017");
 		reservationObject4.setDatePaid("04/21/2017");
 
@@ -370,20 +370,25 @@ public class MainClass {
 		List<CustomerOrder> customerOrders = new ArrayList<CustomerOrder>();
 		
 		CustomerOrder customerOrder1 = new CustomerOrder();
-		customerOrder1.setCustomerNo(10000081);
-		customerOrder1.setorderNo(1111);
+		customerOrder1.setCustomerNo(1111);
+		customerOrder1.setorderNo(10000081);
 		
 		CustomerOrder customerOrder2 = new CustomerOrder();
-		customerOrder2.setCustomerNo(10000082);
-		customerOrder2.setorderNo(1112);
+		customerOrder2.setCustomerNo(1112);
+		customerOrder2.setorderNo(10000082);
 		
 		CustomerOrder customerOrder3 = new CustomerOrder();
-		customerOrder3.setCustomerNo(10000061);
-		customerOrder3.setorderNo(1113);
+		customerOrder3.setCustomerNo(1113);
+		customerOrder3.setorderNo(10000061);
+		
+		CustomerOrder customerOrder4 = new CustomerOrder();
+		customerOrder4.setCustomerNo(1114);
+		customerOrder4.setorderNo(10000084);
 		
 		customerOrders.add(customerOrder1);
 		customerOrders.add(customerOrder2);
 		customerOrders.add(customerOrder3);
+		customerOrders.add(customerOrder4);
 		
 		
 		
@@ -397,9 +402,23 @@ public class MainClass {
 		memberShip1.setmemberId(00001);
 		memberShip1.setcustomerNo(10000081);
 		memberShip1.setStartDate("06/24/2017");
-		memberShip1.setEndDate("06/23/2017");
+		memberShip1.setEndDate("06/23/2018");
+		
+		MemberShip memberShip2 = new MemberShip();
+		memberShip2.setmemberId(00002);
+		memberShip2.setcustomerNo(10000082);
+		memberShip2.setStartDate("06/30/2016");
+		memberShip2.setEndDate("06/29/2017");
+		
+		MemberShip memberShip3 = new MemberShip();
+		memberShip3.setmemberId(00003);
+		memberShip3.setcustomerNo(10000084);
+		memberShip3.setStartDate("05/30/2017");
+		memberShip3.setEndDate("05/29/2018");
 		
 		memberShipsList.add(memberShip1);
+		memberShipsList.add(memberShip2);
+		memberShipsList.add(memberShip3);
 //		System.out.println(memberShip1);
 		return memberShipsList;
 	}

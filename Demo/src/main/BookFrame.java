@@ -107,7 +107,7 @@ public class BookFrame extends JFrame implements RowSetListener {
 
 		button_ADD_ROW.setText("Add row to table");
 		button_UPDATE_DATABASE.setText("Update database");
-		button_DISCARD_CHANGES.setText("Discard changes");
+		button_DISCARD_CHANGES.setText("Show table");
 
 		Container contentPane = getContentPane();
 		contentPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -219,42 +219,41 @@ public class BookFrame extends JFrame implements RowSetListener {
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridx = 0;
-		c.gridy = 7;
+		c.gridy = 6;
 		c.gridwidth = 1;
 		contentPane.add(button_DISCARD_CHANGES, c);
 
-		button_ADD_ROW.addActionListener(new ActionListener() {
-
-			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent e) {
-
-				JOptionPane.showMessageDialog(BookFrame.this,
-						new String[] { "Check the query",
-							textFiledOrderNumber.getText() ,
-								});
-//				System.out.println("ooxx");
-
-				try {
-//					
-//					reservationModel.insertRow(textFiledOrderNumber.getText().trim(),
-//							Integer.parseInt(textFieldBookNumber.getText().trim()),
-//							new Date(Date.parse(textFieldDateOfOrder.getText().trim())),
-//							new Date(Date.parse(textFieldDatePaid.getText().trim())));
-					updateTableModel("select * from productOrder where bookNo = " + textFieldBookNumber.getText().trim());
-				} catch (SQLException sqle) {
-					displaySQLExceptionDialog(sqle);
-				}
-			}
-
-		});
+//		button_ADD_ROW.addActionListener(new ActionListener() {
+//
+//			@SuppressWarnings("deprecation")
+//			public void actionPerformed(ActionEvent e) {
+//
+//				JOptionPane.showMessageDialog(BookFrame.this,
+//						new String[] { "Check the query",
+//							textFiledOrderNumber.getText() ,
+//								});
+////				System.out.println("ooxx");
+//
+//				try {
+////					
+////					reservationModel.insertRow(textFiledOrderNumber.getText().trim(),
+////							Integer.parseInt(textFieldBookNumber.getText().trim()),
+////							new Date(Date.parse(textFieldDateOfOrder.getText().trim())),
+////							new Date(Date.parse(textFieldDatePaid.getText().trim())));
+//					updateTableModel("select * from productOrder where bookNo = " + textFieldBookNumber.getText().trim());
+//				} catch (SQLException sqle) {
+//					displaySQLExceptionDialog(sqle);
+//				}
+//			}
+//
+//		});
 
 		button_UPDATE_DATABASE.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 
 				JOptionPane.showMessageDialog(BookFrame.this,
-						new String[] { "BookNumber:[",
-								textFieldBookNumber.getText() +"]",
+						new String[] { "Command Submitted",
 								});
 //				System.out.println("ooxx");
 
@@ -268,7 +267,7 @@ public class BookFrame extends JFrame implements RowSetListener {
 							+ "\"" + textFieldBookNumber.getText().trim() + "\","
 							+ "\"" + textFieldDateOfOrder.getText().trim() + "\","
 							+ "\"" + textFieldDatePaid.getText().trim() + "\");";
-					System.out.println(sql);
+//					System.out.println(sql);
 					updateTableModel(sql);
 				} catch (SQLException sqle) {
 					displaySQLExceptionDialog(sqle);
