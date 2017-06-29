@@ -32,7 +32,7 @@ import main.ProductOrderFrame;
 import model.ProductOrderModel;
 import model.ReservationModel;
 
-public class ProductOrderFrame extends JFrame implements RowSetListener {
+public class BookFrame extends JFrame implements RowSetListener {
 
 
 	Connection connection;
@@ -55,7 +55,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 	ReservationModel reservationModel;
 
-	public ProductOrderFrame() throws SQLException {
+	public BookFrame() throws SQLException {
 
 		// get the connection
 		connection = MakeConnection.getConnection("BS");
@@ -95,15 +95,15 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 		button_UPDATE_DATABASE = new JButton();
 		button_DISCARD_CHANGES = new JButton();
 
-		labelOrderNumber.setText("OrderNumber:");
-		labelBookNumber.setText("BookNumber:");
-		labelDateOfOrder.setText("DateOfOrder:");
-		labelDatePaid.setText("DatePaid:");
+		labelOrderNumber.setText("BookNumber:");
+		labelBookNumber.setText("BookName:");
+		labelDateOfOrder.setText("Type:");
+		labelDatePaid.setText("Category:");
 		
-		textFieldBookNumber.setText("enter book number here");
-		textFiledOrderNumber.setText("Do not type here");
-		textFieldDateOfOrder.setText("Do not type here");
-		textFieldDatePaid.setText("Do not type here");
+		textFiledOrderNumber.setText("");
+		textFieldBookNumber.setText("");
+		textFieldDateOfOrder.setText("");
+		textFieldDatePaid.setText("");
 
 		button_ADD_ROW.setText("Add row to table");
 		button_UPDATE_DATABASE.setText("Update database");
@@ -214,21 +214,21 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 		c.gridwidth = 1;
 		contentPane.add(button_UPDATE_DATABASE, c);
 
-//		c.fill = GridBagConstraints.HORIZONTAL;
-//		c.anchor = GridBagConstraints.LINE_START;
-//		c.weightx = 0.5;
-//		c.weighty = 0;
-//		c.gridx = 0;
-//		c.gridy = 7;
-//		c.gridwidth = 1;
-//		contentPane.add(button_DISCARD_CHANGES, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.weightx = 0.5;
+		c.weighty = 0;
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		contentPane.add(button_DISCARD_CHANGES, c);
 
 		button_ADD_ROW.addActionListener(new ActionListener() {
 
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 
-				JOptionPane.showMessageDialog(ProductOrderFrame.this,
+				JOptionPane.showMessageDialog(BookFrame.this,
 						new String[] { "Check the query",
 							textFiledOrderNumber.getText() ,
 								});
@@ -252,7 +252,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 			public void actionPerformed(ActionEvent e) {
 
-				JOptionPane.showMessageDialog(ProductOrderFrame.this,
+				JOptionPane.showMessageDialog(BookFrame.this,
 						new String[] { "BookNumber:[",
 								textFieldBookNumber.getText() +"]",
 								});
@@ -264,7 +264,12 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 //							Integer.parseInt(textFieldBookNumber.getText().trim()),
 //							new Date(Date.parse(textFieldDateOfOrder.getText().trim())),
 //							new Date(Date.parse(textFieldDatePaid.getText().trim())));
-					updateTableModel("select * from productOrder where bookNo = " + textFieldBookNumber.getText().trim());
+					String sql = "insert into book (bookNo,bookName,bookType,bookCategory) values (\"" + textFiledOrderNumber.getText().trim() + "\","
+							+ "\"" + textFieldBookNumber.getText().trim() + "\","
+							+ "\"" + textFieldDateOfOrder.getText().trim() + "\","
+							+ "\"" + textFieldDatePaid.getText().trim() + "\");";
+					System.out.println(sql);
+					updateTableModel(sql);
 				} catch (SQLException sqle) {
 					displaySQLExceptionDialog(sqle);
 				}
@@ -300,7 +305,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 	private void displaySQLExceptionDialog(SQLException e) {
 
 		// Display the SQLException in a dialog box
-		JOptionPane.showMessageDialog(ProductOrderFrame.this,
+		JOptionPane.showMessageDialog(BookFrame.this,
 				new String[] { e.getClass().getName() + ": ", e.getMessage() });
 	}
 
@@ -326,7 +331,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 			// Regardless of the query, fetch the contents of COFFEES
 
-			crs.setCommand("select * from productOrder");
+			crs.setCommand("select * from book;");
 			crs.execute();
 
 		} catch (SQLException e) {
@@ -416,8 +421,8 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 	public static void main(String args[]) {
 		try {
-			ProductOrderFrame reservationFrame = new ProductOrderFrame();
-			reservationFrame.setTitle("Order");
+			BookFrame reservationFrame = new BookFrame();
+			reservationFrame.setTitle("Book");
 			reservationFrame.setSize(600, 600);
 			reservationFrame.setVisible(true);
 		} catch (SQLException e) {
@@ -444,7 +449,7 @@ public class ProductOrderFrame extends JFrame implements RowSetListener {
 
 			// Display the error in a dialog box.
 
-			JOptionPane.showMessageDialog(ProductOrderFrame.this, new String[] { // Display
+			JOptionPane.showMessageDialog(BookFrame.this, new String[] { // Display
 																				// a
 																				// 2-line
 																				// message
