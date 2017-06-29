@@ -107,8 +107,8 @@ public class CustomerOrderFrame extends JFrame implements RowSetListener {
 		textFieldDatePaid.setText("Do not type here");
 
 		button_ADD_ROW.setText("Add row to table");
-		button_UPDATE_DATABASE.setText("Update database");
-		button_DISCARD_CHANGES.setText("Discard changes");
+		button_UPDATE_DATABASE.setText("Update");
+		button_DISCARD_CHANGES.setText("Show table");
 
 		Container contentPane = getContentPane();
 		contentPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
